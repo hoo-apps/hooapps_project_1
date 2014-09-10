@@ -15,17 +15,36 @@ import java.util.Collections;
 import edu.hooapps.example.project_1.R;
 import edu.hooapps.example.project_1.model.Question;
 
+/**
+ * The meat of the app. QuizFragment handles the logic of switching questions as well as
+ * displaying content on the screen.
+ */
 public class QuizFragment extends Fragment {
 
+    // Initialize the private fields to store data
     private ArrayList<Question> questionList = new ArrayList<Question>();
     private int score = 0;
     private int questionNum = 0;
 
+    // Initialize private variables for the relevant views on the fragment
     private TextView questionTextView;
     private TextView scoreTextView;
     private Button trueButton;
     private Button falseButton;
 
+    /**
+     * Called when the fragment is first displayed on the screen.
+     * Param descriptions from: developer.android.com
+     *
+     * @param inflater The LayoutInflater object that can be used to inflate any views in
+     *                 the fragment,
+     * @param container If non-null, this is the parent view that the fragment's UI should
+     *                  be attached to. The fragment should not add the view itself, but this
+     *                  can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a
+     *                           previous saved state as given here.
+     * @return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
@@ -43,46 +62,76 @@ public class QuizFragment extends Fragment {
         questionTextView.setText(questionList.get(questionNum).getQuestionText());
 
         // Bind the onClickListeners to the Buttons
-    trueButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            checkAnswer(true);
-            advanceToNextQuestion();
-        }
-    });
-    falseButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            checkAnswer(false);
-            advanceToNextQuestion();
-        }
-    });
+        trueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAnswer(true);
+                advanceToNextQuestion();
+            }
+        });
+        falseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkAnswer(false);
+                advanceToNextQuestion();
+            }
+        });
 
+        // Return the rootView to be displayed in the FrameLayout
         return rootView;
     }
 
+    /**
+     * Checks if the answer the user entered is correct
+     * @param answer The user's answer
+     */
     private void checkAnswer(boolean answer) {
+        // If the answer is correct, update the score
         if (answer == questionList.get(questionNum).getAnswer()) {
-            Toast.makeText(this.getActivity(), "Correct",
-                    Toast.LENGTH_SHORT).show();
+            // Display a message to the user
+            // NOTE: Be sure to call .show() when using Toast
+            Toast.makeText(this.getActivity(), "Correct", Toast.LENGTH_SHORT).show();
+
+            // Increment the score
             score++;
+
+            // Display the score on the scoreTextView
             scoreTextView.setText("Score: " + score);
-        } else {
-            Toast.makeText(this.getActivity(), "Incorrect",
-                    Toast.LENGTH_SHORT).show();
+        }
+        // Else, notify the user
+        else {
+            // Display a message to the user
+            Toast.makeText(this.getActivity(), "Incorrect", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Displays the next question on the screen. If the user has answer every question,
+     * the score and question count are set to 0 and the quiz is restarted
+     */
     private void advanceToNextQuestion() {
+        // Increment the question number
         questionNum++;
+
+        // Check if all the questions have been displayed
         if (questionNum >= questionList.size()) {
+
+            // Reset the questionNum and score
             questionNum = 0;
             score = 0;
+
+            // Update the scoreTextView to display the new score (0)
             scoreTextView.setText("Score: " + score);
+
+            // Randomize the list of questions
             Collections.shuffle(questionList);
+
+            // Notify the user that the game is restarting
             Toast.makeText(this.getActivity(), "Game complete. Restarting...",
                     Toast.LENGTH_SHORT).show();
         }
+
+        // Update the text displayed in the questionTextView
         questionTextView.setText(questionList.get(questionNum).getQuestionText());
     }
 

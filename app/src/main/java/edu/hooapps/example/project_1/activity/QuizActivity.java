@@ -1,20 +1,16 @@
 package edu.hooapps.example.project_1.activity;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 import edu.hooapps.example.project_1.R;
 import edu.hooapps.example.project_1.fragment.QuizFragment;
 
-
+/**
+ * Basic activity to host the fragments.
+ */
 public class QuizActivity extends Activity {
 
     @Override
@@ -22,13 +18,17 @@ public class QuizActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(R.id.container, new QuizFragment())
-                    .commit();
+            // Add a new Quiz fragment to the FrameLayout (R.id.container)
+            getFragmentManager().beginTransaction()                 // Start the transcation
+                    .add(R.id.container, new QuizFragment())        // Add the new QuizFragment
+                    .commit();                                      // Execute the transaction
         }
     }
 
-
+    // ------------------------------------------------------------------------------------------
+    // For now, ignore the next two methods. They are responsible for creating the settings menu
+    // when the menu button is pressed. The menu button will be covered in later lessons
+    // ------------------------------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
