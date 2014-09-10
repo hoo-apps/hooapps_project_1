@@ -1,4 +1,4 @@
-package edu.hooapps.example.project_1;
+package edu.hooapps.example.project_1.activity;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+import edu.hooapps.example.project_1.R;
+import edu.hooapps.example.project_1.fragment.QuizFragment;
 
 
 public class QuizActivity extends Activity {
@@ -21,7 +23,7 @@ public class QuizActivity extends Activity {
         setContentView(R.layout.activity_quiz);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new QuizFragment())
                     .commit();
         }
     }
@@ -44,21 +46,5 @@ public class QuizActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
-            return rootView;
-        }
     }
 }
